@@ -5,12 +5,9 @@
 
 export type DifficultyLevel =
   | 'lv1_hour_half'     // 整點與半點 (如 3:00, 3:30)
-  | 'lv2_quarter'       // 一刻鐘與45分 (如 3:15, 3:45)
-  | 'lv3_five_min'      // 5的倍數分鐘 (如 3:05, 3:20, 3:55)
-  | 'lv4_exact_min'     // 精準到每一分鐘 (如 3:17, 3:42)
-  | 'lv5_elapsed_calc'; // 小學進階：經過時間推算 (如 2:15 經過 35 分鐘)
-
-export type GameMode = 'adventure' | 'free_practice' | 'elapsed_challenge';
+  | 'lv2_quarter'       // 15分與45分 (如 3:15, 3:45)
+  | 'lv3_five_min'      // 5的倍數分鐘 (如 11:40, 3:25)
+  | 'lv4_exact_min';    // 精準每分鐘 (如 8:23, 10:47)
 
 export interface ClockTime {
   hour: number;   // 1 to 12
@@ -20,20 +17,11 @@ export interface ClockTime {
 
 export type MascotType = 'owl' | 'squirrel' | 'rabbit' | 'bear';
 
-export interface MascotInfo {
-  id: MascotType;
-  name: string;
-  title: string;
-  avatarBg: string;
-}
-
 export interface Question {
   id: string;
   level: DifficultyLevel;
   type: 'identify_time' | 'elapsed_calc';
   time: ClockTime;
-  endTime?: ClockTime; // for elapsed time question
-  elapsedMinutes?: number;
   options: string[];
   correctAnswer: string;
   prompt: string;
@@ -47,24 +35,14 @@ export interface Question {
 }
 
 export interface ClockSettings {
-  showMinuteNumbers: boolean;     // 外圈 00, 05, 10... 55
+  showMinuteNumbers: boolean;     // 外圈 05, 10, 15... 55
   showMinuteTicks: boolean;       // 60 個小刻度
   showHourZoneColors: boolean;    // 12 個小時彩虹扇區輔助線
   colorCodedHands: boolean;       // 時針藍色、分針紅色
   showSecondHand: boolean;
-  timerDuration: number;          // 0 (無倒數), 15, 30, 45 秒
-  countdownTickSound: boolean;    // 倒數時發出秒針滴答聲 (Tick-Tock)
-  soundEnabled: boolean;
-  displayFormat: 'chinese' | 'digital'; // '3點15分' 或 '03:15'
-}
-
-export interface Badge {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-  unlocked: boolean;
-  unlockedAt?: string;
+  timerDuration: number;          // 0 (無倒數), 15, 30 秒
+  countdownTickSound: boolean;    // 倒數滴答聲 (Tick-Tock)
+  soundEnabled: boolean;          // 音效開關
 }
 
 export interface UserStats {
@@ -73,5 +51,4 @@ export interface UserStats {
   totalAttempts: number;
   streak: number;
   highestStreak: number;
-  levelMastery: Record<DifficultyLevel, number>; // correct count
 }
